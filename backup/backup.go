@@ -17,7 +17,6 @@ import (
 	"seedhammer.com/bip39"
 	"seedhammer.com/engrave"
 	"seedhammer.com/font/vector"
-	"seedhammer.com/seedqr"
 )
 
 type PlateSize int
@@ -325,13 +324,15 @@ func frontSideSeed(scale func(float32) int, strokeWidth int, plate Seed, plateDi
 	// Engrave column with words 4 to 9 only.
 	cmd(engrave.Offset(innerMargin, (plateDims.Y-col1b.Y)/2, col1))
 
+	/* Skip engraving QR for the SH01 Plate*/
+	fmt.Println(strokeWidth)
 	// Engrave seed QR.
-	qrCmd, err := engrave.ConstantQR(strokeWidth, 3, qr.Q, seedqr.CompactQR(plate.Mnemonic))
-	if err != nil {
-		return nil, err
-	}
-	_, sz := dims(qrCmd)
-	cmd(engrave.Offset(scale(60)-sz.X/2, (plateDims.Y-sz.Y)/2, nil))
+	// qrCmd, err := engrave.ConstantQR(strokeWidth, 3, qr.Q, seedqr.CompactQR(plate.Mnemonic))
+	// if err != nil {
+	// 	return nil, err
+	// }
+	// qr, sz := dims(qrCmd)
+	// cmd(engrave.Offset(scale(60)-sz.X/2, (plateDims.Y-sz.Y)/2, qr))
 
 	// Engrave title.
 	title := strings.ToUpper(plate.Title)
@@ -637,7 +638,7 @@ func descriptorSide(scale func(float32) int, strokeWidth int, fnt *vector.Face, 
 	}
 
 	// Fixed URL to engrave
-	fixedURL := "https://example.com" // Replace with the actual URL you want to engrave
+	fixedURL := "www.seedcard.xyz" // Replace with the actual URL you want to engrave
 
 	// Compute character width, assuming the font is fixed width.
 	charWidthf, _, ok := fnt.Decode('W')
