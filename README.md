@@ -4,8 +4,9 @@ This repository contains the source code to run the controller program for the
 [SeedHammer](https://seedhammer.com) engraving machine. It is forked from v1.2.1 of [this](https://github.com/seedhammer/seedhammer/releases) code and runs on the same hardware
 as the [SeedSigner](https://seedsigner.com/hardware): Raspberry Pi Zero or Zero W, a
 WaveShare 1.3 inch 240x240 LCD hat and a Pi Zero compatible camera with a OV5647
-sensor. 
-Program is used to engrave SEEDCARD plates - CARD and PATTERN plates (link to image).
+sensor.
+
+Program is used to engrave CARD and PATTERN plates used for SEEDCARD physical key cards (link to image).
 
 
 ## Installation
