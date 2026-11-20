@@ -5,7 +5,7 @@ The SeedCard system, end to end:
 | Part | What it is | Where |
 |---|---|---|
 | **Engraver** | Seed Hammer v1.2.1 + SeedCard change: 12 words on SH01, no SeedQR, editable text | this repo, `seedcard` branch |
-| **Plate reader** | Reads the 12 words off an engraved plate with the camera | prototype only (laptop, Python); no repo yet |
+| **Plate reader** | Reads the 12 words off an engraved plate with the camera | [seedcard/reader](https://github.com/seedcard/reader) (laptop prototype, capture kit, test photos) |
 | **SeedSigner fork** | Official SeedSigner plus one added module: "Read SeedCard plate" | not started |
 
 Each council member holds their own SeedSigner (fork) and SD card, their plate, their recovery
@@ -28,7 +28,7 @@ plus a Pi Zero running the engraver image. Engraving is seed-only (SKIP): no des
 ## 2. Plate reader (prototype → module)
 
 - [x] Laptop prototype: corner holes → straighten → stroke map → align on line numbers → letters → BIP39 words → checksum (4 of 4 usable phone photos read; 1 near-tie caught by the checksum)
-- [ ] Give the reader its own repo (e.g. `seedcard/reader`)
+- [x] Own repo: [seedcard/reader](https://github.com/seedcard/reader), with `run_tests.py` over the dummy-plate photos (5/5 pass)
 - [ ] Pi camera photos of a dummy plate with the plate-capture kit (distances, light, angles)
 - [ ] Check close-up focus of the OV5647; decide on lens adjustment or a fixed jig/stand
 - [ ] Choose the lighting (diffuse works best so far)
