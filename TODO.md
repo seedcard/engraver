@@ -19,7 +19,7 @@ plus a Pi Zero running the engraver image. Engraving is seed-only (SKIP): no des
 - [x] Clean rebuild from upstream v1.2.1 (`seedcard` branch)
 - [x] `seedcard/text.conf`: version mark `SC`, title, `key_number = auto`, `seed_qr = no`
 - [x] Image built by GitHub Actions on every push, with SHA-256
-- [ ] Make `seedcard` the default branch (Settings → General); keep `master` as an archive
+- [x] `seedcard` is the default branch; `master` kept as an archive
 - [ ] First boot of the image on the engraver's Pi Zero; dry run (long-press middle button on the engraving screen)
 - [ ] Engrave a dummy seed with SKIP; compare with the BIFB TREASURY X test plate
 - [ ] Tag the first tested version (e.g. `sc-1.0`) and record its image SHA-256 in this file
