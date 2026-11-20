@@ -13,7 +13,8 @@ To see everything that differs from upstream:
 | Seed side, SH01 | 12 words + SeedQR | 12 words, **no SeedQR** |
 | Version mark (SH01: up the left edge) | `V1` | **`SC`** (editable) |
 | Title (SH01: up the right edge) | wallet name from the descriptor | the same, or a fixed title (editable) |
-| Seed words, word numbers, fingerprint, key number (1/2) | from seed and wallet | **unchanged** |
+| Key number (SH01: bottom of the left edge) | from the wallet, e.g. `1/2` | **`1/1`** (editable; `auto` = wallet's numbering) |
+| Seed words, word numbers, fingerprint | from seed | **unchanged** |
 | Descriptor side (wallet backup with QR) | upstream | **unchanged** |
 | Input: scanning SeedQR / descriptor, entering words | upstream | **unchanged** |
 | SH02 / SH03 plates | upstream | same SeedCard text settings apply |
@@ -25,6 +26,7 @@ All editable text is in **`seedcard/text.conf`**:
 ```
 version_mark = SC     # 1–4 characters, replaces "V1"
 title =               # empty = wallet name; otherwise up to 18 characters
+key_number = 1/1      # fixed text up to 5 characters, or auto
 seed_qr = no          # yes = engrave the SeedQR again
 ```
 
@@ -44,9 +46,13 @@ Record the hash with each release.
 ## Plate layout reference
 
 `backup/testdata/plate-15-side-1-1-of-1-words-12.png` (single key) and
-`plate-16-side-1-1-of-2-words-12.png` (key 1 of 2) show the SH01 seed side. The layout
-reproduces, pixel for pixel, the BIFB TREASURY X test plate engraved in 2024, and is the layout
+`plate-16-side-1-1-of-2-words-12.png` (first key of a 2-key wallet, engraved 1/1 because of
+`key_number`) show the SH01 seed side. Apart from the key number, the layout reproduces pixel
+for pixel the BIFB TREASURY X test plate engraved in 2024 (which reads 1/2), and is the layout
 the plate-reader prototype is calibrated for.
+
+Note: with a fixed `key_number`, plates of a multisig wallet no longer show which key they
+hold. The master fingerprint still tells them apart.
 
 ## Not changed on purpose
 

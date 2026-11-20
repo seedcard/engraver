@@ -301,6 +301,10 @@ func frontSideSeed(scale func(float32) int, strokeWidth int, plate Seed, plateDi
 	innerMargin := scale(innerMargin)
 	metaMargin := scale(4)
 	page := fmt.Sprintf("%d/%d", plate.KeyIdx+1, plate.Keys)
+	if seedcard.Text.KeyNumber != "" {
+		// SeedCard: fixed key number from seedcard/text.conf.
+		page = seedcard.Text.KeyNumber
+	}
 	mfp := strings.ToUpper(fmt.Sprintf("%.8x", plate.MasterFingerprint))
 	switch plate.Size {
 	case SmallPlate:

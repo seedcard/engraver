@@ -24,11 +24,15 @@ type Settings struct {
 	Title string
 	// SeedQR enables the SeedQR on the seed side.
 	SeedQR bool
+	// KeyNumber, when not empty, replaces the wallet's key number ("1/2").
+	// Empty means "auto": use the wallet's numbering.
+	KeyNumber string
 }
 
 const (
 	MaxVersionMark = 4
 	MaxTitle       = 18 // matches backup.MaxTitleLen
+	MaxKeyNumber   = 5
 )
 
 // Text is the parsed, validated content of text.conf.
@@ -83,6 +87,19 @@ func Parse(conf string) (Settings, error) {
 				return s, fmt.Errorf("line %d: title must be at most %d characters", n+1, MaxTitle)
 			}
 			s.Title = v
+		case "key_number":
+			if strings.EqualFold(val, "auto") {
+				s.KeyNumber = ""
+				break
+			}
+			v, err := engravable(val)
+			if err != nil {
+				return s, fmt.Errorf("line %d: key_number: %v", n+1, err)
+			}
+			if len(v) < 1 || len(v) > MaxKeyNumber {
+				return s, fmt.Errorf("line %d: key_number must be auto or 1 to %d characters", n+1, MaxKeyNumber)
+			}
+			s.KeyNumber = v
 		case "seed_qr":
 			switch strings.ToLower(val) {
 			case "yes":
@@ -96,7 +113,7 @@ func Parse(conf string) (Settings, error) {
 			return s, fmt.Errorf("line %d: unknown setting %q", n+1, key)
 		}
 	}
-	for _, k := range []string{"version_mark", "title", "seed_qr"} {
+	for _, k := range []string{"version_mark", "title", "key_number", "seed_qr"} {
 		if !seen[k] {
 			return s, fmt.Errorf("missing setting %q", k)
 		}
