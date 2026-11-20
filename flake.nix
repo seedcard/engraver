@@ -598,7 +598,7 @@
                   exit 1
               fi
 
-              flake="github:seedhammer/seedhammer/$VERSION"
+              flake="github:seedcard/engraver/$VERSION"
               nix build "$flake"
               nix run "$flake"#stamp-release $VERSION
 
