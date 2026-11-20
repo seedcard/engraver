@@ -8,7 +8,7 @@ It's Seed Hammer **v1.2.1**, the last upstream release that supports the credit-
 (upstream removed it in v1.3.0), with one small SeedCard change on top:
 
 - the seed side carries the **12 words only**, without the SeedQR
-- the version mark reads **SC** and the key number reads **1/1**
+- the version mark reads **SC**
 - that text (mark, title, key number, SeedQR on/off) is set in one file,
   [`seedcard/text.conf`](seedcard/text.conf)
 
