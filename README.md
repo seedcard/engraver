@@ -14,7 +14,7 @@ It's Seed Hammer **v1.2.1**, the last upstream release that supports the credit-
 
 The seed words, word numbers and master fingerprint always come from the seed. Everything else,
 including the descriptor (wallet) side and how seeds are entered, is unchanged from upstream.
-[SEEDCARD.md](SEEDCARD.md) has the details.
+[SEEDCARD.md](SEEDCARD.md) has the details, and [TODO.md](TODO.md) the plan for the whole SeedCard system (engraver, plate reader, SeedSigner fork).
 
 To see every line that differs from upstream:
 
