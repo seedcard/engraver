@@ -59,7 +59,7 @@ Steps:
 ## 4. Key ceremony and btc-dao integration
 
 - [ ] Add the plate check to the btckeys ceremony: after engraving, read the plate back; the fingerprint must match the engraved one and the exported xpub
-- [ ] Add `docs/drafts/recovery-sheet.md` to btc-dao (drafted 20 November 2026): new sheet notice, "I have printed it" confirmation, signing gate
+- [x] Add `docs/drafts/recovery-sheet.md` to btc-dao (drafted 20 November 2026; added in btc-dao PRs #12 and #13): new sheet notice, "I have printed it" confirmation kept on the member's phone, signing gate, spoken check before a migration
 - [ ] btc-dao spec and guide: one SeedSigner per council member, no SeedQR card, plates engraved seed-only (SKIP) or stamped, signing at home
 - [ ] Mainnet readiness: every council member has confirmed the current recovery sheet; a council change issues a new sheet before the migration
 
