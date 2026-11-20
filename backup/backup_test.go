@@ -91,6 +91,10 @@ func TestEngrave(t *testing.T) {
 		{2, 3, 0, urtypes.P2SH_P2WSH, 12, SquarePlate},
 		{3, 5, 0, urtypes.P2SH_P2WSH, 12, LargePlate},
 		{9, 10, 0, urtypes.P2SH_P2WSH, 12, SquarePlate},
+
+		// SeedCard: seed side of the credit-card plate (SH01).
+		{1, 1, 1, urtypes.P2WPKH, 12, SmallPlate},
+		{1, 2, 1, urtypes.P2WSH, 12, SmallPlate},
 	}
 	for i, test := range tests {
 		i, test := i, test

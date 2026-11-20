@@ -17,6 +17,7 @@ import (
 	"seedhammer.com/bip39"
 	"seedhammer.com/engrave"
 	"seedhammer.com/font/vector"
+	"seedhammer.com/seedcard"
 	"seedhammer.com/seedqr"
 )
 
@@ -294,7 +295,8 @@ func frontSideSeed(scale func(float32) int, strokeWidth int, plate Seed, plateDi
 	col1, col1b := dims(wordColumn(constant, plate.Font, scale(plateFontSize), plate.Mnemonic, 0, endCol1))
 
 	// Engrave version, mfp and page.
-	const version = "V1"
+	// SeedCard: the version mark comes from seedcard/text.conf.
+	version := seedcard.Text.VersionMark
 	margin := scale(outerMargin)
 	innerMargin := scale(innerMargin)
 	metaMargin := scale(4)
@@ -329,13 +331,15 @@ func frontSideSeed(scale func(float32) int, strokeWidth int, plate Seed, plateDi
 	col2, _ := dims(wordColumn(constant, plate.Font, scale(plateFontSize), plate.Mnemonic, endCol1, endCol2))
 	cmd(engrave.Offset(scale(44), (plateDims.Y-col1b.Y)/2, col2))
 
-	// Engrave seed QR.
-	qrCmd, err := engrave.ConstantQR(strokeWidth, 3, qr.Q, seedqr.CompactQR(plate.Mnemonic))
-	if err != nil {
-		return nil, err
+	// Engrave seed QR, unless disabled in seedcard/text.conf.
+	if seedcard.Text.SeedQR {
+		qrCmd, err := engrave.ConstantQR(strokeWidth, 3, qr.Q, seedqr.CompactQR(plate.Mnemonic))
+		if err != nil {
+			return nil, err
+		}
+		qr, sz := dims(qrCmd)
+		cmd(engrave.Offset(scale(60)-sz.X/2, (plateDims.Y-sz.Y)/2, qr))
 	}
-	qr, sz := dims(qrCmd)
-	cmd(engrave.Offset(scale(60)-sz.X/2, (plateDims.Y-sz.Y)/2, qr))
 
 	if plate.Size != SmallPlate {
 		// Engrave bottom of column 2.
@@ -343,8 +347,12 @@ func frontSideSeed(scale func(float32) int, strokeWidth int, plate Seed, plateDi
 		cmd(engrave.Offset(scale(44), (plateDims.Y+col1b.Y)/2-col2b.Y, col2))
 	}
 
-	// Engrave title.
+	// Engrave title. SeedCard: a title set in seedcard/text.conf replaces
+	// the wallet name.
 	title := strings.ToUpper(plate.Title)
+	if seedcard.Text.Title != "" {
+		title = seedcard.Text.Title
+	}
 	switch plate.Size {
 	case SmallPlate:
 		title, sz := dims(engrave.Rotate(-math.Pi/2, engrave.String(plate.Font, scale(plateSmallFontSize), title)))

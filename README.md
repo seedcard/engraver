@@ -1,4 +1,8 @@
-# SeedHammer controller program
+# SeedHammer controller program (SeedCard branch)
+
+> This is the **SeedCard** branch: Seed Hammer v1.2.1 with the credit-card plate (SH01)
+> engraving 12 words without a SeedQR, and editable plate text in `seedcard/text.conf`.
+> See [SEEDCARD.md](SEEDCARD.md).
 
 This repository contains the source code to run the controller program for the
 [SeedHammer](https://seedhammer.com) engraving machine. It runs on the same hardware
