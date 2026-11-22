@@ -6,7 +6,7 @@ The SeedCard system, end to end:
 |---|---|---|
 | **Engraver** | Seed Hammer v1.2.1 + SeedCard change: 12 words on SH01, no SeedQR, editable text | this repo, `seedcard` branch |
 | **Plate reader** | Reads the 12 words off an engraved plate with the camera | [seedcard/reader](https://github.com/seedcard/reader) (laptop prototype, capture kit, test photos) |
-| **SeedSigner fork** | Official SeedSigner plus one added module: "Read SeedCard plate" | not started |
+| **SeedSigner fork** | Official SeedSigner + [Haller](https://github.com/haller-project/haller) handwritten-seed module + a Seed Hammer plate module | plan agreed 22 November 2026 |
 
 Each council member holds their own SeedSigner (fork) and SD card, their plate, their recovery
 sheet, their phone and identity card. The engraver is a shared station: the Seed Hammer machine
@@ -37,24 +37,42 @@ plus a Pi Zero running the engraver image. Engraving is seed-only (SKIP): no des
 - [ ] Review screen: show each word's crop with alternatives, as in the SeedSigner demo; never load a seed without the user confirming every word
 - [ ] Test set: dummy plates in varied light, every result checked against the known words
 
-## 3. SeedSigner fork
+## 3. SeedSigner fork: a Seed Hammer module on Haller
 
-Principles (agreed 20 November 2026):
+[Haller](https://github.com/haller-project/haller) (released 22 November 2026, MIT) reads
+handwritten seed words in a SeedSigner fork
+([`seedsigner-haller`, branch `handwritten-seed`](https://github.com/haller-project/seedsigner-haller/tree/handwritten-seed)):
+based on official SeedSigner, new files plus three small edits (camera, settings, seed menu),
+on-device C library, mandatory word review, and **"verified" only when a written fingerprint
+matches**. Its handwriting networks don't read engraved plates reliably (tested on the dummy
+photos: 1 of 5 alone), while our font matching reads 4 of 4. So we build a **Seed Hammer plate
+module** that plugs into Haller.
 
-- **As small as possible.** Official SeedSigner plus one added reader module; nothing else touched. This device signs for the treasury.
-- **Track official releases.** Rebase the fork on each SeedSigner release, so security fixes and community review carry over.
-- **Reproducible build and verified hashes.** The SD card ceremony checks each member's card exactly as it would an official image.
-- **Watch the official feature.** When SeedSigner's handwritten-word reader is released, shrink the fork to a SeedCard plate template on top of it.
-- **Upstream if possible.** Contributing plate support to SeedSigner would mean no fork at all.
+Principles (agreed 20 November 2026, still apply):
 
-Steps:
+- **As small as possible.** Official SeedSigner + Haller's module + our plate module; nothing else touched. This device signs for the treasury.
+- **Track releases.** Rebase on each SeedSigner release, and on each Haller release.
+- **Reproducible build and verified hashes** for the SD card ceremony.
+- **Upstream if possible.** Offer plate support to the Haller project first; one shared fork is better than two.
 
-- [ ] Fork the official SeedSigner repo; note the release it is based on
-- [ ] Add "Read SeedCard plate" under Load a seed, beside Scan a SeedQR and Enter 12-word seed
-- [ ] Port the reader (Python, as SeedSigner is) within the Pi Zero's limits
-- [ ] Reproducible image build; publish hashes
-- [ ] Keep a short diff-against-upstream document, like `SEEDCARD.md` here
-- [ ] Follow SeedSigner's handwritten-word reader (pizza_bitcoiner's post, November 2026); contact the developers about plate support
+Integration point: Haller's screens work from one `SeedReading` (words, each with its crop and
+ranked candidates). The plate module returns the same object, so review, trust levels and
+fingerprint verification work unchanged.
+
+Build tasks:
+
+- [ ] Contact the Haller project (pizza_bitcoiner) and propose Seed Hammer plate support
+- [ ] `seedsigner/helpers/seedhammer/` module: `read_plate(image, progress, on_word) -> SeedReading`
+  - [ ] plate finder (corner holes), straightening, orientation, stroke map, line-number alignment (from `seedcard/reader`)
+  - [ ] letter matching against Seed Hammer's font, scored into per-word candidates with probabilities
+  - [ ] **engraved fingerprint**: read the 8 hex digits on the left edge (same font, fixed place) and verify the seed with Haller's fingerprint check: plates can reach "verified"
+  - [ ] each word's crop for the review screen
+- [ ] Hook: in Haller's read view, try the plate path first when four corner holes are found; otherwise the handwriting path
+- [ ] Speed on a Pi Zero: hot loops in C, following Haller's `native/` pattern (no new Python dependency)
+- [ ] Layout file per engraver version (`layout.json`), checked by test vectors
+- [ ] Tests: dummy-plate photos (`seedcard/reader/testdata`), including Pi camera photos; wrong seed must never be "verified"
+- [ ] Device image: depends on Haller's SeedSigner OS build (Buildroot package, not yet published); until then Raspberry Pi OS by hand
+- [ ] Short document of what differs from Haller and from official SeedSigner
 
 ## 4. Key ceremony and btc-dao integration
 
