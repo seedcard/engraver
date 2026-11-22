@@ -63,10 +63,12 @@ Build tasks:
 
 - [ ] `seedsigner/helpers/seedhammer/` module: `read_plate(image, progress, on_word) -> SeedReading`
   - [ ] plate finder (corner holes), straightening, orientation, stroke map, line-number alignment (from `seedcard/reader`)
+  - [ ] all Seed Hammer seed plates: SH01, SH02, SH03 layouts computed from the engraver code and the plate drawing (see `seedcard/reader/PLATES.md`)
+  - [ ] text-grid registration for plates without holes (Seed Hammer v2 machine) or with holes hidden
   - [ ] letter matching against Seed Hammer's font, scored into per-word candidates with probabilities
   - [ ] **engraved fingerprint**: read the 8 hex digits on the left edge (same font, fixed place) and verify the seed with Haller's fingerprint check: plates can reach "verified"
   - [ ] each word's crop for the review screen
-- [ ] Hook: in Haller's read view, try the plate path first when four corner holes are found; otherwise the handwriting path
+- [ ] Hook: in Haller's read view, try the plate path first when Seed Hammer holes or a Seed Hammer text grid are found; otherwise the handwriting path
 - [ ] Speed on a Pi Zero: hot loops in C, following Haller's `native/` pattern (no new Python dependency)
 - [ ] Layout file per engraver version (`layout.json`), checked by test vectors
 - [ ] Tests: dummy-plate photos (`seedcard/reader/testdata`), including Pi camera photos; wrong seed must never be "verified"
