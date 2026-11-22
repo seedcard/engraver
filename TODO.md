@@ -53,7 +53,7 @@ Principles (agreed 20 November 2026, still apply):
 - **As small as possible.** Official SeedSigner + Haller's module + our plate module; nothing else touched. This device signs for the treasury.
 - **Track releases.** Rebase on each SeedSigner release, and on each Haller release.
 - **Reproducible build and verified hashes** for the SD card ceremony.
-- **Upstream if possible.** Offer plate support to the Haller project first; one shared fork is better than two.
+- **Upstream if possible.** Offer plate support to the Haller project once it is built and reviewable; one shared fork is better than two.
 
 Integration point: Haller's screens work from one `SeedReading` (words, each with its crop and
 ranked candidates). The plate module returns the same object, so review, trust levels and
@@ -61,7 +61,6 @@ fingerprint verification work unchanged.
 
 Build tasks:
 
-- [ ] Contact the Haller project (pizza_bitcoiner) and propose Seed Hammer plate support
 - [ ] `seedsigner/helpers/seedhammer/` module: `read_plate(image, progress, on_word) -> SeedReading`
   - [ ] plate finder (corner holes), straightening, orientation, stroke map, line-number alignment (from `seedcard/reader`)
   - [ ] letter matching against Seed Hammer's font, scored into per-word candidates with probabilities
@@ -73,6 +72,8 @@ Build tasks:
 - [ ] Tests: dummy-plate photos (`seedcard/reader/testdata`), including Pi camera photos; wrong seed must never be "verified"
 - [ ] Device image: depends on Haller's SeedSigner OS build (Buildroot package, not yet published); until then Raspberry Pi OS by hand
 - [ ] Short document of what differs from Haller and from official SeedSigner
+- [ ] **Then** contact the Haller project (pizza_bitcoiner), once the module is reviewable: a branch on `haller-1` they can run with their own dev setup, dummy-plate test photos (incl. Pi camera) with results per photo, the safety result (no wrong seed ever "verified"), a short design note, Pi Zero timings
+- [ ] Meanwhile: build against the `haller-1` tag; watch their repo and posts for any plate/steel work, and get in touch early if it appears
 
 ## 4. Key ceremony and btc-dao integration
 
